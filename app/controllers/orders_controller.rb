@@ -10,10 +10,21 @@ class OrdersController < ApplicationController
   def create
     @order = Order.new(order_params)
     return render :new if params[:button] == "back"
-    # if文が1行しかない場合は、ifを後ろに置いて1行で記述する。
-    return redirect_to complete_orders_url if @order.save
+
+    if @order.save
+      # sessionに保存する。
+      session[:order_id] = @order.id
+      return redirect_to complete_orders_url
+    end
     # confirm.html.erbを表示するようにする
     render :confirm
+  end
+
+  def complete
+    @order = Order.find_by(id: session[:order_id])
+    return redirect_to new_order_url if @order.blank?
+
+    session[:order_id] = nil
   end
 
   private

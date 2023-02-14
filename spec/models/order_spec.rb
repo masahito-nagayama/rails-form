@@ -6,12 +6,14 @@ RSpec.describe Order, type: :model do
     let(:email) { 'test@gmail.com' }
     let(:telephone) { '09011111111' }
     let(:delivery_address) { '東京都杉並区高円寺北2-21-20' }
+    let(:payment_method_id) { 1 }
     let(:params) do
       {
         name:,
         email:,
         telephone:,
-        delivery_address:
+        delivery_address:,
+        payment_method_id:
       }
     end
   # ↑ここまではテストデータ valid?メソッドに関しての
@@ -65,6 +67,12 @@ RSpec.describe Order, type: :model do
 
     context 'お届け先住所が空白の場合' do
       let(:delivery_address) {''}
+
+      it { is_expected.to eq false}
+    end
+
+    context '支払い方法が未入力の場合' do
+      let(:payment_method_id) {''}
 
       it { is_expected.to eq false}
     end

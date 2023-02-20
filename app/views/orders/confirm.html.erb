@@ -67,7 +67,7 @@
     <%= f.hidden_field :direct_mail_enabled %>
 
     <% @order.inflow_source_ids.each do |inflow_source_id| %>
-      <%= hidden_field_tag "order[infolw_source_ids][]", inflow_source_id %>
+      <%= hidden_field_tag "order[inflow_source_ids][]", inflow_source_id %>
     <% end %>
 
     <div class="d-grid col-md-6 mx-auto mb-3">

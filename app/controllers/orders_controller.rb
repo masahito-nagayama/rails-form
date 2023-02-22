@@ -33,15 +33,16 @@ class OrdersController < ApplicationController
   private
 
   def order_params
-    params.require(:order)
-          .permit(:name,
-                  :email,
-                  :telephone,
-                  :delivery_address,
-                  :payment_method_id,
-                  :other_comment,
-                  :direct_mail_enabled,
-                  inflow_source_ids: [],
-                  order_products_attributes: %i[product_id quantity])
+    params
+      .require(:order)
+      .permit(:name,
+              :email,
+              :telephone,
+              :delivery_address,
+              :payment_method_id,
+              :other_comment,
+              :direct_mail_enabled,
+              inflow_source_ids: [],
+              order_products_attributes: %i[product_id quantity])
   end
 end

@@ -29,6 +29,12 @@
     </div>
     <div class="mb-3">
       <div class="form-abel border-start border-primary border-4 ps-1">
+        <%= t("activerecord.attributes.order.payment_method_id") %>
+      </div>
+      <%= @order.payment_method.name %>
+    </div>
+    <div class="mb-3">
+      <div class="form-abel border-start border-primary border-4 ps-1">
         <%= t("activerecord.attributes.order.order_products") %>
       </div>
       <% @order.order_products.each do |order_product| %>
@@ -38,6 +44,7 @@
               <%= t("activerecord.attributes.order_product.product_id") %>
             </div>
             <%= order_product.name %>
+
             <div class="form-abel border-start border-primary border-2 ps-1">
               <%= t("activerecord.attributes.order_product.quantity") %>
             </div>
@@ -45,12 +52,6 @@
           </div>
         </div>
       <% end %>
-    </div>
-    <div class="mb-3">
-      <div class="form-abel border-start border-primary border-4 ps-1">
-        <%= t("activerecord.attributes.order.payment_method_id") %>
-      </div>
-      <%= @order.payment_method.name %>
     </div>
     <div class="mb-3">
       <div class="form-abel border-start border-primary border-4 ps-1">

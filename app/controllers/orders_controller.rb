@@ -7,6 +7,17 @@ class OrdersController < ApplicationController
   def confirm
     @order = Order.new(order_params)
 
+    if params.key?(:add_product)
+      # buttonが押されたら、OrderProductインスタンスを作成して複数商品を選択できるようにしているらしい
+      @order.order_products << OrderProduct.new
+      return render :new
+    end
+    
+    if params.key?(:delete_product)
+      filter_order_products
+      return render :new
+    end
+
     return render :new if @order.invalid?
   end
 
@@ -44,5 +55,9 @@ class OrdersController < ApplicationController
               :direct_mail_enabled,
               inflow_source_ids: [],
               order_products_attributes: %i[product_id quantity])
+  end
+
+  def filter_order_products
+    @order.order_products = @order.order_products.reject.with_index { |_, index| index == params[:delete_product].to_i }
   end
 end

@@ -1,6 +1,46 @@
 require 'rails_helper'
 # Orderクラス モデルのテストですということを示している。
 RSpec.describe Order, type: :model do
+  describe '#total_price' do
+    let(:params) do
+      {
+        order_products_attributes: [
+          {
+            product_id: 1,
+            quantity: 3,
+          },
+          {
+            product_id: 2,
+            quantity: 2,
+          }
+        ]
+      }
+    end
+      subject { Order.new(params).total_price }
+      it { is_expected.to eq 700 + 70 }
+
+    context "消費税に端数が出た場合" do
+      # テストが実行される前に実行したい処理を beforeで書くことができる。
+      before do
+        # factoryを使用してデータをcreateすることができる。 パラメータを渡すと、渡した値で上書きしてくれる。
+        create(:product, id: 99, price: 299)
+      end
+
+      let(:params) do
+        {
+          order_products_attributes: [
+            {
+              product_id: 99,
+              quantity: 1,
+            }
+          ]
+        }
+      end
+
+      it { is_expected.to eq 329 }
+    end
+  end
+
   describe '#valid?' do
     let(:name) { 'たけし' }
     let(:email) { 'test@gmail.com' }

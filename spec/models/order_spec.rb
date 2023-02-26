@@ -26,6 +26,7 @@ RSpec.describe Order, type: :model do
         create(:product, id: 99, price: 299)
       end
 
+      # factors/products.rbのパラメータを上書きしてくれる。
       let(:params) do
         {
           order_products_attributes: [
@@ -36,7 +37,7 @@ RSpec.describe Order, type: :model do
           ]
         }
       end
-
+      # お値段 299 消費税 29.9 切り上げ 30
       it { is_expected.to eq 329 }
     end
   end

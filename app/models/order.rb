@@ -19,7 +19,7 @@ class Order < ApplicationRecord
   after_initialize :format_telephone
 
   def total_price
-    (order_products.map(&:order_price).sum * TAX_RATE).to_i
+    (BigDecimal(order_products.map(&:order_price).sum.to_s) * BigDecimal(TAX_RATE.to_s)).ceil
   end
 
   private

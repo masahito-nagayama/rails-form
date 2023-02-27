@@ -15,6 +15,8 @@ RSpec.describe "注文フォーム", type: :system do
     fill_in "電話番号", with: telephone
     fill_in "お届け先住所", with: delivery_address
     select "銀行振込", from: "支払い方法"
+    select "おいしいたろう(300円/個)", from: "商品"
+    fill_in "数量", with: 3
     fill_in "その他・ご要望", with: other_comment
     choose "配信を希望する"
     check "検索エンジン"
@@ -33,7 +35,6 @@ RSpec.describe "注文フォーム", type: :system do
     visit complete_orders_path
     expect(current_path).to eq new_order_path
 
-    order = Order.last
     expect(order.name).to eq name
     expect(order.email).to eq email
     expect(order.telephone).to eq telephone
@@ -42,6 +43,9 @@ RSpec.describe "注文フォーム", type: :system do
     expect(order.other_comment).to eq other_comment
     expect(order.direct_mail_enabled).to eq true
     expect(order.inflow_source_ids).to eq [1, 4]
+    expect(order.order_prodcuts.size).to eq 1
+    expect(order.order_prodcuts[0].prodcut_id).to eq 3
+    expect(order.order_prodcuts[0].quantity).to eq 3
   end
 
   context "入力情報に不備がある場合" do
@@ -53,6 +57,8 @@ RSpec.describe "注文フォーム", type: :system do
       fill_in "電話番号", with: "090111111111"
       fill_in "お届け先住所", with: delivery_address
       select "銀行振込", from: "支払い方法"
+      select "おいしいたろう(300円/個)", from: "商品"
+      fill_in "数量", with: 3
       fill_in "その他・ご要望", with: other_comment
       choose "配信を希望する"
       check "検索エンジン"
@@ -74,6 +80,8 @@ RSpec.describe "注文フォーム", type: :system do
       fill_in "電話番号", with: telephone
       fill_in "お届け先住所", with: delivery_address
       select "銀行振込", from: "支払い方法"
+      select "おいしいたろう(300円/個)", from: "商品"
+      fill_in "数量", with: 3
       fill_in "その他・ご要望", with: other_comment
       choose "配信を希望する"
       check "検索エンジン"
@@ -91,6 +99,10 @@ RSpec.describe "注文フォーム", type: :system do
       expect(page).to have_field "電話番号", with: telephone
       expect(page).to have_field "お届け先住所", with: delivery_address
       expect(page).to have_select "支払い方法", selected: "銀行振込"
+
+      expect(page).to have_select "商品", selected: "おいしいたろう(300円/個)"
+      expect(page).to have_field "数量", with: 3
+
       expect(page).to have_field "その他・ご要望", with: other_comment
       expect(page).to have_checked_field "配信を希望する"
 
@@ -122,6 +134,15 @@ RSpec.describe "注文フォーム", type: :system do
       expect(order.other_comment).to eq other_comment
       expect(order.direct_mail_enabled).to eq true
       expect(order.inflow_source_ids).to eq [1, 4]
+      expect(order.order_prodcuts.size).to eq 1
+      expect(order.order_prodcuts[0].prodcut_id).to eq 3
+      expect(order.order_prodcuts[0].quantity).to eq 3
     end
+  end
+
+  context "商品を追加して注文した場合" do
+  end
+
+  context "商品を追加して、削除してから注文した場合" do
   end
 end

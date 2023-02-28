@@ -1,0 +1,24 @@
+<%= @order.name %>様<br>
+<br>
+この度は、ご注文いただきありがとうございます。<br>
+<br>
+以下のご注文内容に基づき、商品を発送いたします。<br>
+到着まで今しばらくお待ちください。<br>
+<br>
+[注文内容]<br>
+<%= @order.order_products.each each do |order_product| %><br>
+<%= t("activerecord.attributes.order_product.product_id") %>：<%= order_product.name_and_price_text %><br>
+<%= t("activerecord.attributes.order_product.quantity") %>：<%= order_product.quantity %><br>
+<% end %><br>
+合計金額：<%= number_to_currency(@order.total_price) %>(税込)<br>
+<br>
+<%= t("activerecord.attributes.paymnet_method_id") %>：<%= @order.payment_method_id %><br>
+<%= t("activerecord.attributes.delivery_address") %>：<%= @order.delivery_address %><br>
+<%= t("activerecord.attributes.telephone") %>：<%= @order.telephone %><br>
+<%= t("activerecord.attributes.other_comment") %>：<%= @order.other_comment %><br>
+<%= t("activerecord.attributes.direct_mail_enabled") %>：<%= @order.direct_mail_enabled_text %><br>
+<br>
+--------------<br>
+ゴリラ果物店<br>
+メール： <%= link_to "support@example.com", "mailt_to:support@example.com" %><br>
+--------------<br>

@@ -26,6 +26,8 @@ class OrdersController < ApplicationController
     return render :new if params[:button] == "back"
 
     if @order.save
+      # userにメールを送信する。order_mailer.rbにmial_to_userというメソッドがあり、それが実行される。
+      OrderMailer.mail_to_user(@order.id).deliver
       # sessionに保存する。
       session[:order_id] = @order.id
       return redirect_to complete_orders_url

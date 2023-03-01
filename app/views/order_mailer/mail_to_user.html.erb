@@ -6,7 +6,7 @@
 到着まで今しばらくお待ちください。<br>
 <br>
 [注文内容]<br>
-<%= @order.order_products.each do |order_product| %><br>
+<% @order.order_products.each do |order_product| %><br>
 <%= t("activerecord.attributes.order_product.product_id") %>：<%= order_product.name_and_price_text %><br>
 <%= t("activerecord.attributes.order_product.quantity") %>：<%= order_product.quantity %><br>
 <% end %><br>

@@ -12,7 +12,7 @@ class OrdersController < ApplicationController
       @order.order_products << OrderProduct.new
       return render :new
     end
-    
+
     if params.key?(:delete_product)
       filter_order_products
       return render :new
@@ -27,7 +27,11 @@ class OrdersController < ApplicationController
 
     if @order.save
       # userにメールを送信する。order_mailer.rbにmial_to_userというメソッドがあり、それが実行される。
-      OrderMailer.mail_to_user(@order.id).deliver
+      # OrderMailer.mail_to_user(@order.id).deliver
+      # ↑の記述は、activejobの記述により不要のためコメントアウト perform_laterメソッドでキューに登録ができる (詳しくはRailsガイドを読め)
+      # OrderMailerJob.perform_later(@order.id)
+      # deliver_laterというものを使えば、↑のOrderMailerJobクラスを作らなくても非同期処理を実行することもできる。
+      OrderMailer.mail_to_user(@order.id).deliver_later
       # sessionに保存する。
       session[:order_id] = @order.id
       return redirect_to complete_orders_url
